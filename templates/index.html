@@ -1,0 +1,87 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap');
+    </style>
+</head>
+<body>
+    <h1>Great Fetch</h1>
+    <h2>The Ultimate Youtube Video Downloader!</h2>
+    <p>Enter a YouTube video URL below:</p>
+    
+    <form action="/download" method="POST">
+        <div class="input-group">
+            <input type="url" name="uservidurl" placeholder="Enter YouTube video URL">
+            <select name="resolution" id="resolution">
+                <option value="0">144p</option>
+                <option value="1">360p</option>
+                <option value="2">720p</option>
+                <option value="3">1080p</option>
+            </select>
+            <button id="mainbtn" type="submit">Download</button>
+        </div>
+    </form>
+
+    <div id="downloadLinks">
+        <!-- Thumbnail and title will be displayed here -->
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var uservidurl = document.querySelector('input[name="uservidurl"]').value;
+            var resolution = document.querySelector('#resolution').value;
+
+            // Fetch thumbnail and title
+            fetch('/fetch_info', {
+                method: 'POST',
+                body: new URLSearchParams({ 'uservidurl': uservidurl }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                var downloadLinks = document.getElementById('downloadLinks');
+                if (data.error) {
+                    downloadLinks.innerHTML = '<p>Error: ' + data.error + '</p>';
+                } else {
+                    // Display thumbnail and title
+                    downloadLinks.innerHTML = `
+                        <img src="${data.thumbnail}" class="thumbnail" alt="Video Thumbnail">
+                        <p class="title">${data.title}</p>
+                    `;
+                    
+                    // Start download in the background
+                    startDownload(uservidurl, resolution);
+                }
+            });
+        });
+
+        function startDownload(uservidurl, resolution) {
+            // Start download in the background
+            fetch('/download', {
+                method: 'POST',
+                body: new URLSearchParams({ 'uservidurl': uservidurl, 'resolution': resolution }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.error) {
+                    alert('Download started!');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

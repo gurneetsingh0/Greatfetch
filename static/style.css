@@ -1,0 +1,83 @@
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+h1 {
+    color: #007BFF;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+input[type="url"],
+select {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+button.download-btn {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.download-btn:hover {
+    background-color: #0056b3;
+}
+
+button.download-btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 10px black;
+}
+#downloadLinks{
+display: flex;
+margin-left: 29vw;
+margin-top: 8vh;
+border: solid black 5px;
+height: 27vh;
+width: 40vw;
+}
+.thumbnail{
+    width: 16vw;
+    height: 20vh;
+    margin-right: 2vw;
+    margin-top: 2vh;
+    margin-left: 2px;
+}
+.title, h2{
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 3vh;
+    font-weight: bold;
+    margin-top: 7vh;
+}
